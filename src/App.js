@@ -92,6 +92,14 @@ const AIDreamGenerator = () => {
 function App() {
   const { scrollYProgress } = useScroll();
   const backgroundOpacity = useTransform(scrollYProgress, [0.4, 0.6], [0, 1]);
+  
+  // AI性格切换实验状态
+  const [seed, setSeed] = useState("gentle");
+  const seeds = {
+    gentle: { tone: "温柔", bias: "光", defect: "健忘" },
+    logical: { tone: "冷静", bias: "秩序", defect: "缺乏共情" },
+    chaotic: { tone: "情绪化", bias: "自由", defect: "冲动" },
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-900 via-blue-900 to-slate-900 text-white overflow-x-hidden">
@@ -187,6 +195,59 @@ function App() {
         </motion.div>
       </section>
 
+      {/* 新增模块 1：系统原型验证结构 */}
+      <section className="min-h-[80vh] flex flex-col justify-center items-center relative z-20 px-8">
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 1 }}
+          viewport={{ once: true }}
+          className="w-full max-w-6xl"
+        >
+          <h2 className="text-4xl md:text-5xl font-bold text-center mb-10 text-cyan-300">
+            系统原型验证结构
+          </h2>
+
+          <p className="text-slate-300 text-center max-w-2xl mx-auto mb-12">
+            作为策划原型验证，我们不追求完整AI实现，而是通过模块化原型快速验证"活人感"的感知。  
+            核心由以下三个可迭代模块组成。
+          </p>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {[
+              {
+                title: "1. AI人格原型层",
+                desc: "使用Prompt模板生成4类初始性格，基于玩家输入（命名语气、频率）实时更新。前端用状态机模拟AI反应节奏。",
+                tech: "技术实现：JSON Prompt + 状态触发"
+              },
+              {
+                title: "2. 异步行为触发层",
+                desc: "用定时器与离线检测模块（LocalStorage时间戳）模拟'AI在你离开后行动'。回归时读取并渲染事件日志。",
+                tech: "技术实现：setTimeout + LocalStorage + 条件事件池"
+              },
+              {
+                title: "3. 可视化验证层",
+                desc: "以网页交互和动态灯光模拟'柜中生命'。收集玩家交互频率和事件触发率，形成可量化留存指标。",
+                tech: "技术实现：React + Tailwind + Framer Motion"
+              }
+            ].map((item, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.2, duration: 0.8 }}
+                viewport={{ once: true }}
+                className="bg-slate-800/50 border border-cyan-400/30 rounded-lg p-6 hover:border-cyan-400/50 transition-all duration-300"
+              >
+                <h3 className="text-xl font-semibold text-cyan-300 mb-3">{item.title}</h3>
+                <p className="text-slate-300 text-sm mb-3 leading-relaxed">{item.desc}</p>
+                <p className="text-cyan-200 text-xs italic">{item.tech}</p>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+      </section>
+
       {/* 第三部分：AI人格种子系统 */}
       <section className="min-h-screen flex flex-col justify-center items-center relative z-20 px-8">
         <motion.div
@@ -255,6 +316,45 @@ function App() {
               ))}
             </motion.div>
           </div>
+        </motion.div>
+      </section>
+
+      {/* 新增模块 3：AI性格切换实验 */}
+      <section className="min-h-[60vh] flex flex-col justify-center items-center relative z-20 px-8">
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 1 }}
+          viewport={{ once: true }}
+          className="w-full max-w-4xl text-center"
+        >
+          <h2 className="text-4xl md:text-5xl font-bold mb-8 text-cyan-300">
+            AI性格切换实验
+          </h2>
+          <p className="text-slate-300 mb-8">
+            点击下方按钮切换AI手办的性格参数，以验证人格模板对行为差异的影响。
+          </p>
+          <button
+            onClick={() => {
+              const keys = Object.keys(seeds);
+              const next = keys[(keys.indexOf(seed) + 1) % keys.length];
+              setSeed(next);
+            }}
+            className="px-6 py-3 bg-cyan-500/20 border border-cyan-400/50 rounded-lg text-cyan-300 hover:bg-cyan-500/30 transition-all duration-300 backdrop-blur-sm"
+          >
+            切换AI性格：{seed}
+          </button>
+          <motion.div
+            key={seed}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3, duration: 0.5 }}
+            className="mt-6 text-slate-300 bg-slate-800/30 backdrop-blur-sm border border-cyan-400/20 rounded-lg p-4"
+          >
+            当前人格参数 → tone: <span className="text-cyan-300">{seeds[seed].tone}</span> ，
+            bias: <span className="text-cyan-300">{seeds[seed].bias}</span> ，
+            defect: <span className="text-cyan-300">{seeds[seed].defect}</span>
+          </motion.div>
         </motion.div>
       </section>
 
@@ -336,6 +436,46 @@ function App() {
           </div>
           
           <AIDreamGenerator />
+        </motion.div>
+      </section>
+
+      {/* 新增模块 2：原型数据采集与验证 */}
+      <section className="min-h-[70vh] flex flex-col justify-center items-center relative z-20 px-8">
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 1 }}
+          viewport={{ once: true }}
+          className="w-full max-w-6xl text-center"
+        >
+          <h2 className="text-4xl md:text-5xl font-bold mb-8 text-cyan-300">
+            原型数据采集与验证
+          </h2>
+          <p className="text-slate-300 mb-12 max-w-3xl mx-auto leading-relaxed">
+            通过浏览器事件与轻量日志机制，我们可以在Alpha阶段验证玩家对"生命感"的真实反应。  
+            以下为关键监测点与采集策略：
+          </p>
+
+          <div className="grid md:grid-cols-2 gap-8 text-left">
+            {[
+              { metric: "互动频率", method: "统计玩家点击梦境/事件按钮次数，衡量主动探索度。" },
+              { metric: "回访间隔", method: "计算用户两次访问间隔时间差，观察'离线想起'动机。" },
+              { metric: "行为多样性", method: "分析AI触发事件种类占比，用以评估随机性与可玩性。" },
+              { metric: "记忆感表达", method: "在玩家反馈文本中，统计出现'他记得我'等情感词频率。" }
+            ].map((item, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.2, duration: 0.8 }}
+                viewport={{ once: true }}
+                className="bg-slate-800/50 border border-cyan-400/30 rounded-lg p-6"
+              >
+                <h4 className="text-cyan-300 font-semibold mb-2">{item.metric}</h4>
+                <p className="text-slate-300 text-sm">{item.method}</p>
+              </motion.div>
+            ))}
+          </div>
         </motion.div>
       </section>
 
