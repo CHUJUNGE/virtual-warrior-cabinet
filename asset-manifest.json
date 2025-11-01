@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/virtual-warrior-cabinet/static/css/main.f4c47d37.css",
-    "main.js": "/virtual-warrior-cabinet/static/js/main.98b3158a.js",
+    "main.css": "/virtual-warrior-cabinet/static/css/main.9ddc0209.css",
+    "main.js": "/virtual-warrior-cabinet/static/js/main.e0aa778d.js",
     "index.html": "/virtual-warrior-cabinet/index.html",
-    "main.f4c47d37.css.map": "/virtual-warrior-cabinet/static/css/main.f4c47d37.css.map",
-    "main.98b3158a.js.map": "/virtual-warrior-cabinet/static/js/main.98b3158a.js.map"
+    "main.9ddc0209.css.map": "/virtual-warrior-cabinet/static/css/main.9ddc0209.css.map",
+    "main.e0aa778d.js.map": "/virtual-warrior-cabinet/static/js/main.e0aa778d.js.map"
   },
   "entrypoints": [
-    "static/css/main.f4c47d37.css",
-    "static/js/main.98b3158a.js"
+    "static/css/main.9ddc0209.css",
+    "static/js/main.e0aa778d.js"
   ]
 }
