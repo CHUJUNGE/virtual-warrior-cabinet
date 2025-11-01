@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/virtual-warrior-cabinet/static/css/main.f4c47d37.css",
+    "main.js": "/virtual-warrior-cabinet/static/js/main.98b3158a.js",
+    "index.html": "/virtual-warrior-cabinet/index.html",
+    "main.f4c47d37.css.map": "/virtual-warrior-cabinet/static/css/main.f4c47d37.css.map",
+    "main.98b3158a.js.map": "/virtual-warrior-cabinet/static/js/main.98b3158a.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.f4c47d37.css",
+    "static/js/main.98b3158a.js"
+  ]
+}
