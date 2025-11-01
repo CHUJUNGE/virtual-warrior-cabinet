@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 
 // 粒子组件
@@ -89,6 +89,75 @@ const AIDreamGenerator = () => {
   );
 };
 
+// 导航栏组件
+const Navbar = () => {
+  const sections = [
+    { id: "intro", label: "封面" },
+    { id: "system-flow", label: "系统流程" },
+    { id: "prototype-structure", label: "验证结构" },
+    { id: "ai-seed", label: "人格种子" },
+    { id: "ai-switch", label: "性格实验" },
+    { id: "async-life", label: "异步生命" },
+    { id: "data-validation", label: "数据验证" },
+    { id: "social", label: "社交共演" },
+    { id: "metrics", label: "策划指标" },
+    { id: "philosophy", label: "设计哲学" },
+  ];
+
+  const [active, setActive] = useState("intro");
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+      let current = "intro";
+      sections.forEach((section) => {
+        const el = document.getElementById(section.id);
+        if (el && scrollPosition >= el.offsetTop - 200) {
+          current = section.id;
+        }
+      });
+      setActive(current);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const scrollToSection = (id) => {
+    const el = document.getElementById(id);
+    if (el) {
+      window.scrollTo({
+        top: el.offsetTop - 80,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  return (
+    <motion.nav
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 1 }}
+      className="fixed top-0 left-0 right-0 z-50 bg-slate-900/60 backdrop-blur-md border-b border-cyan-400/20"
+    >
+      <div className="max-w-7xl mx-auto flex flex-wrap justify-center gap-2 md:gap-6 py-3 px-4 text-xs md:text-sm">
+        {sections.map((s) => (
+          <button
+            key={s.id}
+            onClick={() => scrollToSection(s.id)}
+            className={`px-2 py-1 rounded transition-all duration-300 hover:bg-cyan-500/10 ${
+              active === s.id
+                ? "text-cyan-300 border-b border-cyan-400 bg-cyan-500/10"
+                : "text-slate-400 hover:text-cyan-200"
+            }`}
+          >
+            {s.label}
+          </button>
+        ))}
+      </div>
+    </motion.nav>
+  );
+};
+
 function App() {
   const { scrollYProgress } = useScroll();
   const backgroundOpacity = useTransform(scrollYProgress, [0.4, 0.6], [0, 1]);
@@ -103,6 +172,7 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-900 via-blue-900 to-slate-900 text-white overflow-x-hidden">
+      <Navbar />
       <ParticleField />
       
       <motion.div 
@@ -111,7 +181,7 @@ function App() {
       />
       
       {/* 第一部分：封面 */}
-      <section className="min-h-screen flex flex-col justify-center items-center relative z-20 px-8">
+      <section id="intro" className="min-h-screen flex flex-col justify-center items-center relative z-20 px-8 pt-20">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
@@ -147,7 +217,7 @@ function App() {
       </section>
 
       {/* 第二部分：系统流程展示 */}
-      <section className="min-h-screen flex flex-col justify-center items-center relative z-20 px-8">
+      <section id="system-flow" className="min-h-screen flex flex-col justify-center items-center relative z-20 px-8">
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
@@ -196,7 +266,7 @@ function App() {
       </section>
 
       {/* 新增模块 1：系统原型验证结构 */}
-      <section className="min-h-[80vh] flex flex-col justify-center items-center relative z-20 px-8">
+      <section id="prototype-structure" className="min-h-[80vh] flex flex-col justify-center items-center relative z-20 px-8">
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
@@ -249,7 +319,7 @@ function App() {
       </section>
 
       {/* 第三部分：AI人格种子系统 */}
-      <section className="min-h-screen flex flex-col justify-center items-center relative z-20 px-8">
+      <section id="ai-seed" className="min-h-screen flex flex-col justify-center items-center relative z-20 px-8">
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
@@ -320,7 +390,7 @@ function App() {
       </section>
 
       {/* 新增模块 3：AI性格切换实验 */}
-      <section className="min-h-[60vh] flex flex-col justify-center items-center relative z-20 px-8">
+      <section id="ai-switch" className="min-h-[60vh] flex flex-col justify-center items-center relative z-20 px-8">
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
@@ -359,7 +429,7 @@ function App() {
       </section>
 
       {/* 第四部分：异步生命机制 */}
-      <section className="min-h-screen flex flex-col justify-center items-center relative z-20 px-8">
+      <section id="async-life" className="min-h-screen flex flex-col justify-center items-center relative z-20 px-8">
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
@@ -440,7 +510,7 @@ function App() {
       </section>
 
       {/* 新增模块 2：原型数据采集与验证 */}
-      <section className="min-h-[70vh] flex flex-col justify-center items-center relative z-20 px-8">
+      <section id="data-validation" className="min-h-[70vh] flex flex-col justify-center items-center relative z-20 px-8">
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
@@ -480,7 +550,7 @@ function App() {
       </section>
 
       {/* 第五部分：社交共演机制 */}
-      <section className="min-h-screen flex flex-col justify-center items-center relative z-20 px-8">
+      <section id="social" className="min-h-screen flex flex-col justify-center items-center relative z-20 px-8">
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
@@ -554,7 +624,7 @@ function App() {
       </section>
 
       {/* 第六部分：验证与策划指标 */}
-      <section className="min-h-screen flex flex-col justify-center items-center relative z-20 px-8">
+      <section id="metrics" className="min-h-screen flex flex-col justify-center items-center relative z-20 px-8">
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
@@ -600,7 +670,7 @@ function App() {
       </section>
 
       {/* 第七部分：收尾与哲学 */}
-      <section className="min-h-screen flex flex-col justify-center items-center relative z-20 px-8 bg-black/50">
+      <section id="philosophy" className="min-h-screen flex flex-col justify-center items-center relative z-20 px-8 bg-black/50">
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
